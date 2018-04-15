@@ -14,3 +14,6 @@ Android app to check [Niobio](https://niobiocash.org/) crypto coin mining pools.
 ## Author
 * Dhiogo Boza <dhiogoboza@gmail.com>
 * Enock Gomes Neto <enocknt@gmail.com>
+
+## Donate
+If you like support us please donate to Niobio wallet `NB9mJ4YMCp1Fi2PtSKeMf8bz92387qymMEtf76hkCFvbExVkLHqeWCVR1xQgMP9zi5TA6ehKvWQbZNMPjH3Ha22QKUNw5iZ`.
