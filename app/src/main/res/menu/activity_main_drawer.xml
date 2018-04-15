@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_main"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_mining"
+            android:icon="@drawable/ic_menu_mining"
+            android:title="@string/menu_mining" />
+        <item
+            android:id="@+id/nav_pools"
+            android:icon="@drawable/ic_menu_pools"
+            android:title="@string/menu_pools" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="@string/menu_settings" />
+    </group>
+
+    <group
+        android:id="@+id/menu_social"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/menu_share" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_about"
+            android:title="@string/menu_about" />
+    </group>
+
+</menu>

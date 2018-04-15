@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="configure_account">Adicione uma carteira para continuar</string>
+    <string name="delete_model">Apagar</string>
+    <string name="delete_sure">Apagar item?</string>
+    <string name="delete_title">Apagar item</string>
+    <string name="error_field_required">Este campo é obrigatório</string>
+    <string name="error_incorrect_password">A senha está incorreta</string>
+    <string name="error_saving_item">Erro salvando item</string>
+    <string name="menu_mining">Mineração</string>
+    <string name="hello_blank_fragment">Olá</string>
+    <string name="menu_pools">Pools</string>
+    <string name="menu_settings">Carteiras</string>
+    <string name="navigation_drawer_close">Fechar menu</string>
+    <string name="navigation_drawer_open">Abrir menu</string>
+    <string name="pool_url">URL da API do Pool</string>
+    <string name="prompt_account_name">Nome</string>
+    <string name="prompt_active">Ativo</string>
+    <string name="prompt_address">Endereço da carteira</string>
+    <string name="save_model">Salvar</string>
+    <string name="title_activity_add_address">Adicionar Carteira</string>
+    <string name="title_activity_add_pool">Adicionar Pool</string>
+    <string name="title_activity_edit_address">Editar Carteira</string>
+    <string name="title_activity_edit_pool">Editar Pool</string>
+    <string name="title_activity_pools">Niobio Pools</string>
+    <string name="title_activity_settings">Configurações</string>
+    <string name="wallet_copied">Endereço da carteira copiado</string>
+    <string name="menu_about">Sobre</string>
+    <string name="menu_send">Enviar</string>
+    <string name="menu_share">Compartilhar</string>
+    <string name="about_text">Aplicativo para monitoração de Pools de Niobio. Mais informações em https://github.com/dhiogoboza/niobiopools-app.</string>
+    <string name="recommenddation">Verifique sua mineração de Niobio</string>
+</resources>
