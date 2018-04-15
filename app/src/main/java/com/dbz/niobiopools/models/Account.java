@@ -70,8 +70,10 @@ public class Account extends Model {
 
     @Override
     public void done(SharedPreferences.Editor editor) {
-        Account activeAccount = AccountManager.getInstance().getActiveAccount();
+        editor.commit();
+
         List<Account> updatedAccounts = AccountManager.getInstance().getAll(true);
+        Account activeAccount = AccountManager.getInstance().getActiveAccount();
 
         if (isActive()) {
             if (updatedAccounts != null) {
@@ -82,8 +84,6 @@ public class Account extends Model {
                     }
                 }
             }
-
-            AccountManager.getInstance().setActiveAccount(this);
         }
 
         editor.commit();
