@@ -113,16 +113,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG, "home: " + (mCurrentSelection == R.id.nav_mining));
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (mCurrentSelection == R.id.nav_mining) {
+            // close app
             finish();
         } else {
-            //TODO: update activity title
-            super.onBackPressed();
+            updateCurrentFragment(R.id.nav_mining);
         }
     }
 
@@ -188,7 +186,7 @@ public class MainActivity extends AppCompatActivity
                     String sAux = "\n" + getString(R.string.recommenddation) + "\n\n";
                     sAux = sAux + "https://play.google.com/store/apps/details?id=" + getPackageName() + "\n\n";
                     i.putExtra(Intent.EXTRA_TEXT, sAux);
-                    startActivity(Intent.createChooser(i, "Choose one"));
+                    startActivity(Intent.createChooser(i, getString(R.string.choose_one)));
                 } catch(Exception e) {
                     //e.toString();
                 }

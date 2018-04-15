@@ -36,4 +36,5 @@
     <string name="menu_about">About</string>
     <string name="menu_share">Share</string>
     <string name="about_text">App to monitore Niobio Pools mining. More info at https://github.com/dhiogoboza/niobiopools-app.</string>
+    <string name="choose_one">Choose one</string>
 </resources>

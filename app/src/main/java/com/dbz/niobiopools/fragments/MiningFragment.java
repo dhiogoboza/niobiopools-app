@@ -75,7 +75,8 @@ public class MiningFragment extends NBFragment implements View.OnClickListener, 
         statsView.setOnClickListener(this);;
         statsView.setOnLongClickListener(this);
 
-        updateTotal(AccountManager.getInstance().getActiveAccount(), 0, 0);
+        PoolsManager poolsManager = PoolsManager.getInstance();
+        updateTotal(AccountManager.getInstance().getActiveAccount(), poolsManager.getTotalPaid(), poolsManager.getTotalhashRate());
 
         return view;
     }

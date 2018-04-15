@@ -55,6 +55,8 @@ public class PoolsManager implements Runnable {
     private ArrayList<Pool> mActivePoolsList;
     private ScheduledThreadPoolExecutor mExecutor;
     private ArrayList<RecyclerView> mRecyclersViewList;
+    private long mTotalhashRate = 0;
+    private long mTotalPaid = 0;
 
     private PoolsManager(MainActivity context) {
         mContext = context;
@@ -139,7 +141,7 @@ public class PoolsManager implements Runnable {
             mExecutor.shutdown();
             mExecutor = new ScheduledThreadPoolExecutor(1);
         }
-        mExecutor.scheduleAtFixedRate(PoolsManager.this, 2, TIME_UPDATE_POOLS, TimeUnit.SECONDS);
+        mExecutor.scheduleWithFixedDelay(PoolsManager.this, 2, TIME_UPDATE_POOLS, TimeUnit.SECONDS);
     }
 
     private void addStaticPools(List<Pool> pools, SharedPreferences.Editor editor) {
@@ -235,8 +237,19 @@ public class PoolsManager implements Runnable {
                 }
             }
 
+            mTotalPaid = totalPaid;
+            mTotalhashRate = totalHashRate;
+
             mContext.updateTotal(account, totalPaid, totalHashRate);
         }
+    }
+
+    public long getTotalhashRate() {
+        return mTotalhashRate;
+    }
+
+    public long getTotalPaid() {
+        return mTotalPaid;
     }
 
     private boolean updatePool(Pool pool, String address) {
@@ -313,6 +326,8 @@ public class PoolsManager implements Runnable {
     }
 
     public void resetStats() {
+        mTotalhashRate = 0;
+        mTotalPaid = 0;
         for (Pool pool : mPoolsList) {
             pool.setBalance(0);
             pool.setHashes(0);

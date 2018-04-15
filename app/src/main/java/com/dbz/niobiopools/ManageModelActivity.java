@@ -125,9 +125,6 @@ public class ManageModelActivity extends AppCompatActivity implements OnClickLis
             } else if (intent.getBooleanExtra(EXTRA_ACTION_SETTINGS, false)) {
                 title = R.string.title_activity_add_address;
                 mAction = Action.ADDRESS;
-
-                mAddressView.setText("N9tHSfREhTT9Cx4Nu9vLFYWZ2rmMS1eHKVKZVkBMX5x8jApGCCTici4fDgz4h92MmE5LVJUaVMVEvUTfFVu8VSMVHZoLQBo");
-
             } else if (intent.getBooleanExtra(EXTRA_ACTION_POOL, false)) {
                 ((TextInputLayout) findViewById(R.id.account_address_til)).setHint(getString(R.string.pool_url));
 
