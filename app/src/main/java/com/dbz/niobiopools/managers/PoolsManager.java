@@ -41,6 +41,9 @@ public class PoolsManager implements Runnable {
     private static final String TAG = "PoolsManager";
     private static final long TIME_UPDATE_POOLS = 10;
 
+    private static final String CONFIG_LAST_HASH_RATE = "lastHashRate";
+    private static final String CONFIG_LAST_PAID = "lastPaid";
+
     private static final String JSON_KEY_STATS = "stats";
     private static final String JSON_KEY_HASHES = "hashes";
     private static final String JSON_KEY_LAST_SHARE = "lastShare";
@@ -55,7 +58,7 @@ public class PoolsManager implements Runnable {
     private ArrayList<Pool> mActivePoolsList;
     private ScheduledThreadPoolExecutor mExecutor;
     private ArrayList<RecyclerView> mRecyclersViewList;
-    private long mTotalhashRate = 0;
+    private long mTotalHashRate = 0;
     private long mTotalPaid = 0;
 
     private PoolsManager(MainActivity context) {
@@ -238,14 +241,20 @@ public class PoolsManager implements Runnable {
             }
 
             mTotalPaid = totalPaid;
-            mTotalhashRate = totalHashRate;
+            mTotalHashRate = totalHashRate;
+
+            SharedPreferences settings = mContext.getSharedPreferences(MainActivity.PREFERENCES_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putLong(CONFIG_LAST_HASH_RATE, mTotalHashRate);
+            editor.putLong(CONFIG_LAST_PAID, mTotalPaid);
+            editor.commit();
 
             mContext.updateTotal(account, totalPaid, totalHashRate);
         }
     }
 
     public long getTotalhashRate() {
-        return mTotalhashRate;
+        return mTotalHashRate;
     }
 
     public long getTotalPaid() {
@@ -303,6 +312,8 @@ public class PoolsManager implements Runnable {
 
                 return true;
             } else {
+                pool.setConnectionFail(true);
+
                 Log.e(TAG, "recovering pool data[url: " + pool.getURL() + ", result: " + jsonObject + "]");
             }
         } catch (Exception e) {
@@ -311,7 +322,7 @@ public class PoolsManager implements Runnable {
             pool.setConnectionFail(true);
         }
 
-        boolean result =  pool.isPreviousConnectionFail() == pool.isConnectionFail();
+        boolean result =  pool.isPreviousConnectionFail() != pool.isConnectionFail();
         pool.setPreviousConnectionFail(pool.isConnectionFail());
 
         return result;
@@ -326,13 +337,23 @@ public class PoolsManager implements Runnable {
     }
 
     public void resetStats() {
-        mTotalhashRate = 0;
+        mTotalHashRate = 0;
         mTotalPaid = 0;
         for (Pool pool : mPoolsList) {
             pool.setBalance(0);
             pool.setHashes(0);
             pool.setHashrate("0");
-            pool.setPaid(0);
+            pool.setPaid(-1);
         }
+    }
+
+    public void init() {
+        getAll(true);
+
+        SharedPreferences settings = mContext.getSharedPreferences(MainActivity.PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        mTotalHashRate = settings.getLong(CONFIG_LAST_HASH_RATE, 0);
+        mTotalPaid = settings.getLong(CONFIG_LAST_PAID, 0);
+
     }
 }

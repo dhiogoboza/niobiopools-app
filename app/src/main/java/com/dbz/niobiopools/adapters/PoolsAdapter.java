@@ -1,5 +1,6 @@
 package com.dbz.niobiopools.adapters;
 
+import android.app.MediaRouteButton;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,14 +29,17 @@ public class PoolsAdapter extends RecyclerView.Adapter<PoolsAdapter.ViewHolder> 
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         // each data item is just a string in this case
         public TextView mTextViewName;
         public TextView mTextViewURL;
         public TextView mTextViewHashrate;
         public TextView mTextViewPaid;
 
+        public View mProgress;
         public View mWarningIcon;
         public View mViewActive;
+        public View mStatsContainer;
 
         public ViewHolder(View v, boolean mining) {
             super(v);
@@ -47,11 +51,17 @@ public class PoolsAdapter extends RecyclerView.Adapter<PoolsAdapter.ViewHolder> 
                 mTextViewHashrate = (TextView) v.findViewById(R.id.pi_hashrate);
                 mTextViewPaid = (TextView) v.findViewById(R.id.pi_paid);
                 mWarningIcon = v.findViewById(R.id.pi_warning);
+                mProgress = v.findViewById(R.id.pi_progress);
+                mStatsContainer = v.findViewById(R.id.pool_mining_status_container);
+
+                mProgress.setVisibility(View.VISIBLE);
+                mStatsContainer.setVisibility(View.GONE);
 
                 v.findViewById(R.id.pool_active_container).setVisibility(View.GONE);
             } else {
                 mViewActive = v.findViewById(R.id.pi_active);
                 v.findViewById(R.id.pool_mining_status_container).setVisibility(View.GONE);
+                v.findViewById(R.id.pi_progress).setVisibility(View.GONE);
             }
         }
     }
@@ -89,9 +99,19 @@ public class PoolsAdapter extends RecyclerView.Adapter<PoolsAdapter.ViewHolder> 
         holder.mTextViewURL.setText(pool.getShowURL());
 
         if (mMining) {
-            holder.mTextViewHashrate.setText(pool.getHashRate() + "/s");
-            holder.mTextViewPaid.setText(String.valueOf(pool.getPaid() / 100000000) + " NBR");
-            holder.mWarningIcon.setVisibility(pool.isConnectionFail() ? View.VISIBLE : View.INVISIBLE);
+            if (pool.getPaid() >= 0 || pool.isConnectionFail()) {
+                holder.mProgress.setVisibility(View.GONE);
+                holder.mStatsContainer.setVisibility(View.VISIBLE);
+
+                long p = pool.getPaid();
+
+                holder.mTextViewHashrate.setText(pool.getHashRate() + "/s");
+                holder.mTextViewPaid.setText(String.valueOf((p < 0 ? 0 : p) / 100000000) + " NBR");
+                holder.mWarningIcon.setVisibility(pool.isConnectionFail() ? View.VISIBLE : View.INVISIBLE);
+            } else {
+                holder.mStatsContainer.setVisibility(View.GONE);
+                holder.mProgress.setVisibility(View.VISIBLE);
+            }
         } else {
             holder.mViewActive.setVisibility(pool.isActive() ? View.VISIBLE : View.INVISIBLE);
         }
@@ -113,7 +133,7 @@ public class PoolsAdapter extends RecyclerView.Adapter<PoolsAdapter.ViewHolder> 
     @Override
     public void onClick(View v) {
         if (mMining) {
-
+            // TODO: charts
         } else {
             Intent intent = new Intent(v.getContext(), ManageModelActivity.class);
 

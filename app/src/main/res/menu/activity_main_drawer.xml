@@ -30,6 +30,11 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_about"
             android:title="@string/menu_about" />
+
+        <item
+            android:id="@+id/nav_donate"
+            android:icon="@drawable/ic_menu_donate"
+            android:title="@string/menu_donate" />
     </group>
 
 </menu>

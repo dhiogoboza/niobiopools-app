@@ -37,4 +37,8 @@
     <string name="menu_share">Share</string>
     <string name="about_text">App to monitore Niobio Pools mining. More info at https://github.com/dhiogoboza/niobiopools-app.</string>
     <string name="choose_one">Choose one</string>
+    <string name="menu_donate">Donate</string>
+    <string name="donate_text">Click below to copy my wallet, thank you!</string>
+    <string name="donate_wallet" translatable="false">NB9mJ4YMCp1Fi2PtSKeMf8bz92387qymMEtf76hkCFvbExVkLHqeWCVR1xQgMP9zi5TA6ehKvWQbZNMPjH3Ha22QKUNw5iZ</string>
+    <string name="copy">Copy</string>
 </resources>

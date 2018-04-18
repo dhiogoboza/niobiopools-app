@@ -28,7 +28,7 @@ public class Pool extends Model {
     private long lastShare = 0;
     private String hashrate = "0 H";
     private long balance = 0;
-    private long paid = 0;
+    private long paid = -1;
     private String showName;
     private String showURL;
 

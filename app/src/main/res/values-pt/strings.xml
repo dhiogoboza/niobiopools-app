@@ -31,4 +31,7 @@
     <string name="about_text">Aplicativo para monitoração de Pools de Niobio. Mais informações em https://github.com/dhiogoboza/niobiopools-app.</string>
     <string name="recommenddation">Verifique sua mineração de Niobio</string>
     <string name="choose_one">Esolha um</string>
+    <string name="menu_donate">Doar</string>
+    <string name="copy">Copiar</string>
+    <string name="donate_text">Clique abaixo para copiar minha carteira, obrigado!</string>
 </resources>

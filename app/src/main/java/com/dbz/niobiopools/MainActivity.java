@@ -1,5 +1,8 @@
 package com.dbz.niobiopools;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity
             protected Void doInBackground(Void... params) {
                 if (AccountManager.getInstance().getActiveAccount() == null) {
                     AccountManager.getInstance().getAll(true);
-                    PoolsManager.getInstance().getAll(true);
+                    PoolsManager.getInstance().init();
                     AccountManager.getInstance().loadActiveAccount();
                 }
 
@@ -203,6 +206,22 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                 alertDialog.show();
+                return;
+            case R.id.nav_donate:
+                AlertDialog alertDonate = new AlertDialog.Builder(MainActivity.this).create();
+                alertDonate.setTitle(R.string.menu_donate);
+                alertDonate.setMessage(getString(R.string.donate_text));
+                alertDonate.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.copy),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("wallet", getString(R.string.donate_wallet));
+                                clipboard.setPrimaryClip(clip);
+
+                                dialog.dismiss();
+                            }
+                        });
+                alertDonate.show();
                 return;
 
             default:
