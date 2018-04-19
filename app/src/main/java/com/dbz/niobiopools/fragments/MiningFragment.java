@@ -152,7 +152,7 @@ public class MiningFragment extends NBFragment implements View.OnClickListener, 
 
             Snackbar.make(getView().findViewById(R.id.fragment_mining_content),
                     R.string.wallet_copied,
-                    Snackbar.LENGTH_LONG)
+                    Snackbar.LENGTH_SHORT)
                     .show();
         }
 

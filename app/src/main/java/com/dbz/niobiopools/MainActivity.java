@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     private int mCurrentSelection = R.id.nav_mining;
     private NBFragment mCurrentFragment;
+    private boolean mLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             protected void onPostExecute(Void none) {
+                mLoaded = true;
+
                 if (AccountManager.getInstance().getActiveAccount() == null) {
                     Intent intent = new Intent(MainActivity.this, ManageModelActivity.class);
                     intent.putExtra(ManageModelActivity.EXTRA_FIRST_USE, true);
@@ -111,6 +114,15 @@ public class MainActivity extends AppCompatActivity
             if (mCurrentFragment != null) {
                 mCurrentFragment.invalidateList();
             }
+        } else if (mLoaded) {
+            Intent intent = new Intent(MainActivity.this, ManageModelActivity.class);
+            intent.putExtra(ManageModelActivity.EXTRA_FIRST_USE, true);
+            startActivityForResult(intent, REQUEST_CODE_ACCOUNT);
+
+            Snackbar.make(findViewById(android.R.id.content),
+                    R.string.configure_account,
+                    Snackbar.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -208,7 +220,7 @@ public class MainActivity extends AppCompatActivity
                 alertDialog.show();
                 return;
             case R.id.nav_donate:
-                AlertDialog alertDonate = new AlertDialog.Builder(MainActivity.this).create();
+                final AlertDialog alertDonate = new AlertDialog.Builder(MainActivity.this).create();
                 alertDonate.setTitle(R.string.menu_donate);
                 alertDonate.setMessage(getString(R.string.donate_text));
                 alertDonate.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.copy),
@@ -217,6 +229,16 @@ public class MainActivity extends AppCompatActivity
                                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData clip = ClipData.newPlainText("wallet", getString(R.string.donate_wallet));
                                 clipboard.setPrimaryClip(clip);
+
+                                alertDonate.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        Snackbar.make(findViewById(android.R.id.content),
+                                                R.string.wallet_copied,
+                                                Snackbar.LENGTH_SHORT)
+                                                .show();
+                                    }
+                                });
 
                                 dialog.dismiss();
                             }

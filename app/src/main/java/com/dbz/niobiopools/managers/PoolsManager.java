@@ -227,14 +227,16 @@ public class PoolsManager implements Runnable {
             long totalPaid = 0;
             long totalHashRate = 0;
             for (Pool pool : mActivePoolsList) {
-
                 if (updatePool(pool, address)) {
+                    Log.d(TAG, "pool updated");
+
                     for (RecyclerView recyclerView: mRecyclersViewList) {
                         ((PoolsAdapter) recyclerView.getAdapter()).notifyItemChanged(pool);
                     }
-
                     totalPaid += pool.getPaid();
                     totalHashRate += pool.getNumericHashRate();
+
+                    Log.d(TAG, "totalHashRate: " + totalHashRate);
                 } else {
                     Log.d(TAG, "not updated");
                 }
@@ -273,19 +275,18 @@ public class PoolsManager implements Runnable {
             if (pool.getURL().startsWith("https")) {
                 HttpsURLConnection urlConnection = (HttpsURLConnection) poolUrl.openConnection();
                 urlConnection.setRequestMethod("GET");
-                urlConnection.setReadTimeout(10000 /* milliseconds */);
-                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setReadTimeout(8000 /* milliseconds */);
+                urlConnection.setConnectTimeout(6000 /* milliseconds */);
                 urlConnection.setDoOutput(true);
                 urlConnection.connect();
             } else {
                 HttpURLConnection urlConnection = (HttpURLConnection) poolUrl.openConnection();
                 urlConnection.setRequestMethod("GET");
-                urlConnection.setReadTimeout(10000 /* milliseconds */);
-                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setReadTimeout(8000 /* milliseconds */);
+                urlConnection.setConnectTimeout(6000 /* milliseconds */);
                 urlConnection.setDoOutput(true);
                 urlConnection.connect();
             }
-
 
             BufferedReader br = new BufferedReader(new InputStreamReader(poolUrl.openStream()));
             StringBuilder sb = new StringBuilder();
@@ -307,15 +308,19 @@ public class PoolsManager implements Runnable {
                 pool.setHashrate(ParserUtils.getStringValue(stats, JSON_KEY_HASHRATE, "0 H"));
                 pool.setBalance(ParserUtils.getNumberValue(stats, JSON_KEY_BALANCE));
                 pool.setPaid(ParserUtils.getNumberValue(stats, JSON_KEY_PAID));
-
-                pool.setConnectionFail(false);
-
-                return true;
             } else {
-                pool.setConnectionFail(true);
+                pool.setHashes(0);
+                pool.setLastShare(0);
+                pool.setHashrate("0 H");
+                pool.setBalance(0);
+                pool.setPaid(0);
 
                 Log.e(TAG, "recovering pool data[url: " + pool.getURL() + ", result: " + jsonObject + "]");
             }
+
+            pool.setConnectionFail(false);
+
+            return true;
         } catch (Exception e) {
             Log.e(TAG, "requesting pool " + pool.getURL() + " data", e);
 
@@ -329,6 +334,7 @@ public class PoolsManager implements Runnable {
     }
 
     public void unregisterRecyclerView(RecyclerView mRecyclerView) {
+        mRecyclerView.invalidate();
         mRecyclersViewList.remove(mRecyclerView);
     }
 

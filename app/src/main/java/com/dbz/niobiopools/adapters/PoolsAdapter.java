@@ -40,28 +40,31 @@ public class PoolsAdapter extends RecyclerView.Adapter<PoolsAdapter.ViewHolder> 
         public View mWarningIcon;
         public View mViewActive;
         public View mStatsContainer;
+        public View mPoolActiveContainer;
 
         public ViewHolder(View v, boolean mining) {
             super(v);
 
             mTextViewName = (TextView) v.findViewById(R.id.pi_name);
             mTextViewURL = (TextView) v.findViewById(R.id.pi_url);
+            mPoolActiveContainer = v.findViewById(R.id.pool_active_container);
+            mProgress = v.findViewById(R.id.pi_progress);
+            mStatsContainer = v.findViewById(R.id.pool_mining_status_container);
 
             if (mining) {
                 mTextViewHashrate = (TextView) v.findViewById(R.id.pi_hashrate);
                 mTextViewPaid = (TextView) v.findViewById(R.id.pi_paid);
                 mWarningIcon = v.findViewById(R.id.pi_warning);
-                mProgress = v.findViewById(R.id.pi_progress);
-                mStatsContainer = v.findViewById(R.id.pool_mining_status_container);
 
                 mProgress.setVisibility(View.VISIBLE);
                 mStatsContainer.setVisibility(View.GONE);
-
-                v.findViewById(R.id.pool_active_container).setVisibility(View.GONE);
+                mPoolActiveContainer.setVisibility(View.GONE);
             } else {
+                mProgress.setVisibility(View.GONE);
+                mStatsContainer.setVisibility(View.GONE);
+                mPoolActiveContainer.setVisibility(View.VISIBLE);
+
                 mViewActive = v.findViewById(R.id.pi_active);
-                v.findViewById(R.id.pool_mining_status_container).setVisibility(View.GONE);
-                v.findViewById(R.id.pi_progress).setVisibility(View.GONE);
             }
         }
     }
@@ -109,8 +112,8 @@ public class PoolsAdapter extends RecyclerView.Adapter<PoolsAdapter.ViewHolder> 
                 holder.mTextViewPaid.setText(String.valueOf((p < 0 ? 0 : p) / 100000000) + " NBR");
                 holder.mWarningIcon.setVisibility(pool.isConnectionFail() ? View.VISIBLE : View.INVISIBLE);
             } else {
-                holder.mStatsContainer.setVisibility(View.GONE);
                 holder.mProgress.setVisibility(View.VISIBLE);
+                holder.mStatsContainer.setVisibility(View.GONE);
             }
         } else {
             holder.mViewActive.setVisibility(pool.isActive() ? View.VISIBLE : View.INVISIBLE);
